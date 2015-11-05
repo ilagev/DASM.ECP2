@@ -2,6 +2,7 @@ package com.ilagev.dasmecp2;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,7 +12,6 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.ilagev.dasmecp2.models.Artists;
-import com.ilagev.dasmecp2.models.TopTracks;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -86,26 +86,10 @@ public class MainActivity extends AppCompatActivity {
         if (!artists.getArtists().getItems().isEmpty()) {
             String artistID = artists.getArtists().getItems().get(0).getId();
 
-            Call<TopTracks> call_async = apiService.getTopTracks(artistID);
+            Intent intent = new Intent(MainActivity.this, SearchResultsActivity.class);
+            intent.putExtra("artistID", artistID);
 
-            Log.i(LOG_TAG, String.valueOf(artistID));
-            call_async.enqueue(new Callback<TopTracks>() {
-                @Override
-                public void onResponse(Response<TopTracks> response, Retrofit retrofit) {
-                    TopTracks topTracks = response.body();
-                    Log.i(LOG_TAG, topTracks.toString());
-                    MainActivity.this.processTopTracks(topTracks);
-                }
-
-                @Override
-                public void onFailure(Throwable t) {
-                    Log.e(LOG_TAG, t.getMessage());
-                }
-            });
+            startActivity(intent);
         }
-    }
-
-    private void processTopTracks(TopTracks topTracks) {
-        // new intent -> listView with all the tracks
     }
 }
