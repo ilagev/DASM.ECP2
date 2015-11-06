@@ -9,9 +9,6 @@ import android.widget.ListView;
 import com.ilagev.dasmecp2.models.TopTracks;
 import com.ilagev.dasmecp2.models.Track;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -42,16 +39,9 @@ public class SearchResultsActivity extends AppCompatActivity {
         });
     }
 
-    private void processTopTracks(TopTracks topTracks) {
-        List<String> trackNames = new ArrayList<String>();
-        for (Track t : topTracks.getTracks()) {
-            trackNames.add(t.getName());
-        }
+    private void processTopTracks(final TopTracks topTracks) {
         ListView lv = (ListView) findViewById(R.id.canciones_buscadas);
-        ArrayAdapter<String> adaptador = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                trackNames);
-        lv.setAdapter(adaptador);
+        ArrayAdapter<Track> adapter = new TrackAdapter(this, topTracks.getTracks());
+        lv.setAdapter(adapter);
     }
 }

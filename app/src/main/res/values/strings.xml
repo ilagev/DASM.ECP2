@@ -2,4 +2,5 @@
     <string name="app_name">DASM.ECP2</string>
     <string name="actionBarSearchName">SearchInterface</string>
     <string name="search_hint">Inserte texto aquí...</string>
+    <string name="save">Save</string>
 </resources>
