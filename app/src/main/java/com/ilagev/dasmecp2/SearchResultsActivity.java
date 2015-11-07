@@ -28,7 +28,6 @@ public class SearchResultsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Response<TopTracks> response, Retrofit retrofit) {
                 TopTracks topTracks = response.body();
-                Log.i(MainActivity.LOG_TAG, topTracks.toString());
                 SearchResultsActivity.this.processTopTracks(topTracks);
             }
 
@@ -37,11 +36,12 @@ public class SearchResultsActivity extends AppCompatActivity {
                 Log.e(MainActivity.LOG_TAG, t.getMessage());
             }
         });
+        setResult(RESULT_OK);
     }
 
     private void processTopTracks(final TopTracks topTracks) {
         ListView lv = (ListView) findViewById(R.id.canciones_buscadas);
-        ArrayAdapter<Track> adapter = new TrackAdapter(this, topTracks.getTracks());
+        ArrayAdapter<Track> adapter = new SearchTracksAdapter(this, topTracks.getTracks());
         lv.setAdapter(adapter);
     }
 }

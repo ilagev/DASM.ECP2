@@ -8,10 +8,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.ilagev.dasmecp2.db.RepoTracks;
+import com.ilagev.dasmecp2.db.TrackDB;
 import com.ilagev.dasmecp2.models.Artists;
+
+import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -27,11 +33,30 @@ public class MainActivity extends AppCompatActivity {
 
     public static SpotifyAPIService apiService;
 
+    public static RepoTracks repo = null;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        this.readDatabase();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (repo == null) {
+            repo = new RepoTracks(this);
+        }
+        this.readDatabase();
 
+    }
+
+    private void readDatabase() {
+        List<TrackDB> tracks = repo.getAll();
+        ListView lv = (ListView) findViewById(R.id.canciones_guardadas);
+        ArrayAdapter<TrackDB> adapter = new SavedTracksAdapter(this, tracks);
+        lv.setAdapter(adapter);
     }
 
     @Override
@@ -92,4 +117,5 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
 }

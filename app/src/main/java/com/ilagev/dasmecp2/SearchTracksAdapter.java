@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ilagev.dasmecp2.db.RepoTracks;
 import com.ilagev.dasmecp2.db.TrackDB;
 import com.ilagev.dasmecp2.models.Track;
 
@@ -18,13 +17,13 @@ import java.util.List;
 /**
  * Created by lv on 6/11/15.
  */
-public class TrackAdapter extends ArrayAdapter<Track> {
+public class SearchTracksAdapter extends ArrayAdapter<Track> {
 
     static private Context context;
     private List<Track> tracks;
 
-    public TrackAdapter(Context c, List<Track> tracks) {
-        super(c, R.layout.row, tracks);
+    public SearchTracksAdapter(Context c, List<Track> tracks) {
+        super(c, R.layout.row_search_results, tracks);
         this.context = c;
         this.tracks = tracks;
     }
@@ -40,7 +39,7 @@ public class TrackAdapter extends ArrayAdapter<Track> {
         if (convertView == null) {
             LayoutInflater inflater =
                     (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.row, null);
+            convertView = inflater.inflate(R.layout.row_search_results, null);
         }
 
         Track track = this.tracks.get(position);
@@ -58,7 +57,7 @@ public class TrackAdapter extends ArrayAdapter<Track> {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TrackAdapter.context, tracks.get(position).getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(SearchTracksAdapter.context, tracks.get(position).getName(), Toast.LENGTH_SHORT).show();
                 TrackDB t = new TrackDB(
                     tracks.get(position).getName(),
                     tracks.get(position).getId(),
@@ -67,8 +66,7 @@ public class TrackAdapter extends ArrayAdapter<Track> {
                     tracks.get(position).getAlbum().getImages().get(0).getUrl(),
                     tracks.get(position).getArtists().get(0).getName());
 
-                RepoTracks repo = new RepoTracks(TrackAdapter.context);
-                repo.add(t);
+                MainActivity.repo.add(t);
             }
         });
 
