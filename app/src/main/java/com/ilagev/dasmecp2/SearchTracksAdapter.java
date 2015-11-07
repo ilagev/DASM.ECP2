@@ -57,7 +57,6 @@ public class SearchTracksAdapter extends ArrayAdapter<Track> {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(SearchTracksAdapter.context, tracks.get(position).getName(), Toast.LENGTH_SHORT).show();
                 TrackDB t = new TrackDB(
                     tracks.get(position).getName(),
                     tracks.get(position).getId(),
@@ -66,11 +65,22 @@ public class SearchTracksAdapter extends ArrayAdapter<Track> {
                     tracks.get(position).getAlbum().getImages().get(0).getUrl(),
                     tracks.get(position).getArtists().get(0).getName());
 
-                MainActivity.repo.add(t);
+                if (MainActivity.repo.exists(t.getName())) {
+                    Toast.makeText(
+                            SearchTracksAdapter.context,
+                            "Song " + tracks.get(position).getName() + " already exists",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    MainActivity.repo.add(t);
+                    Toast.makeText(
+                            SearchTracksAdapter.context,
+                            "Added " + tracks.get(position).getName(),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        return  convertView;
+        return convertView;
     }
 
 

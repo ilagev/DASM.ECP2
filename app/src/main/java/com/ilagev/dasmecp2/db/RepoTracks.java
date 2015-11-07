@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -101,6 +102,25 @@ public class RepoTracks extends SQLiteOpenHelper {
     public long deleteAll() {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.delete(tablaCanciones.TABLE_NAME, "1", null);
+    }
+
+    public boolean exists(String name) {
+        String consultaSQL = "SELECT * FROM " + tablaCanciones.TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(consultaSQL, null);
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                if (cursor.getString(cursor.getColumnIndex(tablaCanciones.COL_NAME_NAME)).equalsIgnoreCase(name)) {
+                    Log.i("-----", cursor.getString(cursor.getColumnIndex(tablaCanciones.COL_NAME_NAME)));
+                    cursor.close();
+                    return true;
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return false;
     }
 
 }
