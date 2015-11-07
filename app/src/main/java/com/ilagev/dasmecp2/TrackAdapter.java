@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ilagev.dasmecp2.db.RepoTracks;
+import com.ilagev.dasmecp2.db.TrackDB;
 import com.ilagev.dasmecp2.models.Track;
 
 import java.util.List;
@@ -47,8 +49,8 @@ public class TrackAdapter extends ArrayAdapter<Track> {
             TextView tvName = (TextView) convertView.findViewById(R.id.song_name);
             tvName.setText(track.getName());
 
-            TextView tvArtist = (TextView) convertView.findViewById(R.id.artist_name);
-            tvArtist.setText(track.getArtists().get(0).getName());
+            TextView tvAlbum = (TextView) convertView.findViewById(R.id.album_name);
+            tvAlbum.setText(track.getAlbum().getName());
         }
 
         Button b = (Button) convertView.findViewById(R.id.save);
@@ -57,6 +59,16 @@ public class TrackAdapter extends ArrayAdapter<Track> {
             @Override
             public void onClick(View v) {
                 Toast.makeText(TrackAdapter.context, tracks.get(position).getName(), Toast.LENGTH_SHORT).show();
+                TrackDB t = new TrackDB(
+                    tracks.get(position).getName(),
+                    tracks.get(position).getId(),
+                    tracks.get(position).getTrackNumber(),
+                    tracks.get(position).getAlbum().getName(),
+                    tracks.get(position).getAlbum().getImages().get(0).getUrl(),
+                    tracks.get(position).getArtists().get(0).getName());
+
+                RepoTracks repo = new RepoTracks(TrackAdapter.context);
+                repo.add(t);
             }
         });
 
