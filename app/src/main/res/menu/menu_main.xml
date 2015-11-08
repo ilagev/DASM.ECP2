@@ -5,6 +5,6 @@
         android:id="@+id/menu_search"
         android:title="@string/actionBarSearchName"
         appcompat:actionViewClass="android.widget.SearchView"
-        appcompat:showAsAction="always"/>
+        appcompat:showAsAction="always" />
 
 </menu>

@@ -47,6 +47,9 @@ public class SavedTracksAdapter extends ArrayAdapter<TrackDB> {
             TextView tvAlbum = (TextView) convertView.findViewById(R.id.album);
             tvAlbum.setText(track.getAlbumName());
 
+            TextView tvArtist = (TextView) convertView.findViewById(R.id.artist);
+            tvArtist.setText(track.getArtistName());
+
             ImageView iv = (ImageView) convertView.findViewById(R.id.image_album);
             Picasso.with(context).load(track.getAlbumURLImage()).into(iv);
         }
